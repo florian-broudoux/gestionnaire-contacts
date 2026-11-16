@@ -89,6 +89,7 @@ function lancerMenu() {
         );
         switch (choix) {
             case "1":
+                ajouterContact();
                 break;
             case "2":
                 afficherContacts();
@@ -253,6 +254,43 @@ function trierContacts() {
     }
 }
 
+function ajouterContact() {
+    // Fonction pour répéter le prompt
+    const demander = propriete => {
+        const saisie = prompt(propriete);
+        return saisie === null ? "" : saisie.trim();
+    };
+    // On stock chaque saisie dans sa variable
+    const nom = demander("Nom :");
+    const prenom = demander("Prénom :");
+    if (!nom || !prenom) {
+        console.log("Le nom et le prénom sont obligatoires");
+        return;
+    }
+    const ageSaisi = demander("Age :");
+    const age = Number(ageSaisi);
+    if (age < 0 || ageSaisi === "" || isNaN(age)) {
+        console.log("Age invalide");
+        return;
+    }
+    const ville = demander("Ville :");
+    const email = demander("Email :");
+    const telephone = demander("Telephone");
+
+    // On crée le nouveau contact avec les variables au dessus
+    const nouveauContact = {
+        nom: nom,
+        prenom: prenom,
+        age: age,
+        ville: ville,
+        email: email,
+        telephone: telephone
+    };
+    // On l'ajoute dans le tableau
+    contacts.push(nouveauContact);
+    console.log(`${prenom} ${nom} a été ajouté aux contacts`);
+    console.log(`Il y a maintenant ${contacts.length} contacts`);
+} 
 
 // LANCEMENT DU MENU
 lancerMenu();
