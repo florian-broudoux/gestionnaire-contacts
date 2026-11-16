@@ -70,60 +70,9 @@ const contacts = [
 console.log(`Nombre de contact : ${contacts.length}`);
 console.log(`Premier contact : ${contacts[0].prenom} ${contacts[0].nom}`);
 
-// MENU
-function lancerMenu() {
-    let choix;
+// FONCTIONS
 
-    do {
-        choix = prompt(
-            "1. Ajouter un contact \n" +
-                "2. Afficher les contacts \n" +
-                "3. Rechercher un contact \n" +
-                "4. Filtrer par ville \n" +
-                "5. Filtrer par tranche d'âge \n" +
-                "6. Trier les contacts \n" +
-                "7. Supprimer un contact \n" +
-                "8. Statistiques \n" +
-                "0. Quitter \n\n" +
-                "Votre choix ?",
-        );
-        switch (choix) {
-            case "1":
-                ajouterContact();
-                break;
-            case "2":
-                afficherContacts();
-                break;
-            case "3":
-                rechercherContact();
-                break;
-            case "4":
-                filtrerParVille();
-                break;
-            case "5":
-                filtrerParAge();
-                break;
-            case "6":
-                trierContacts();
-                break;
-            case "7":
-                supprimerContact();
-                break;
-            case "8":
-                afficherStatistiques();
-                break;
-            case "0":
-                break;
-            case null:
-                break;
-            default:
-                console.log("Veuillez entrer un numéro compris entre 0 et 8");
-                break;
-        }
-    } while (choix !== "0" && choix !== null);
-    console.log("Au revoir !");
-}
-
+// Affiche tous les contacts
 function afficherContacts() {
     console.log(`Liste des contacts (${contacts.length} contacts) : \n\n`);
 
@@ -135,12 +84,13 @@ function afficherContacts() {
     });
 }
 
+// Permet de rechercher un contact par le prénom ou le nom
 function rechercherContact() {
     // Saisie de l'utilisateur
     const saisie = prompt(
         "Veuillez entrer le prénom et/ou le nom du contact à rechercher",
     );
-    if (!saisie) {
+    if (!saisie || !saisie.trim()) {
         console.log("Recherche annulée");
         return;
     }
@@ -167,10 +117,11 @@ function rechercherContact() {
     }
 }
 
+// Permet de trouver les contacts d'une même ville
 function filtrerParVille() {
     //Saisie de l'utilisateur
     const saisie = prompt("Entrez une ville :");
-    if (!saisie) {
+    if (!saisie || !saisie.trim()) {
         console.log("Filtrage annulé");
         return;
     }
@@ -193,6 +144,7 @@ function filtrerParVille() {
     }
 }
 
+// Permet de trouver des contacts dans une tranche d'age
 function filtrerParAge() {
     //Saisie de l'utilisateur (2 prompts, age min et age max)
     const saisieMin = prompt("Age minimum :");
@@ -231,6 +183,7 @@ function filtrerParAge() {
     }
 }
 
+// Permet de trier les contacts par nom ou par age
 function trierContacts() {
     // Saisie de l'utilisateur
     const saisie = prompt(
@@ -258,6 +211,7 @@ function trierContacts() {
     }
 }
 
+// Permet d'ajouter un contact
 function ajouterContact() {
     // Fonction pour répéter le prompt
     const demander = (propriete) => {
@@ -296,10 +250,11 @@ function ajouterContact() {
     console.log(`Il y a maintenant ${contacts.length} contacts`);
 }
 
+// Permet de supprimer un contact
 function supprimerContact() {
     // Saisie de l'utilisateur
     const saisie = prompt("Entrez le nom ou l'email du contact à supprimer");
-    if (!saisie) {
+    if (!saisie || !saisie.trim()) {
         console.log("Suppression annulé");
         return;
     }
@@ -322,6 +277,7 @@ function supprimerContact() {
     }
 }
 
+// Affiche des statistiques sur le tableau des contacts
 function afficherStatistiques() {
     console.log("Statistiques des contacts :");
     if (contacts.length === 0) {
@@ -377,6 +333,69 @@ function afficherStatistiques() {
     console.log(
         `La ville la plus représentée est ${villeMax} avec ${compteurMax} contacts`,
     );
+}
+
+// Chaînage de méthode
+// On filtre la ville, on tri les ages et on met dans un nouveau tableau
+const madridParAge = contacts
+    .filter((c) => c.ville === "Madrid")
+    .sort((a, b) => a.age - b.age)
+    .map((c) => `${c.prenom} ${c.nom} (${c.age} ans)`);
+// Boucle pour mettre les résultats par ligne
+madridParAge.forEach((ligne) => console.log(ligne));
+
+// MENU PRINCIPAL
+function lancerMenu() {
+    let choix;
+
+    do {
+        choix = prompt(
+            "1. Ajouter un contact \n" +
+                "2. Afficher les contacts \n" +
+                "3. Rechercher un contact \n" +
+                "4. Filtrer par ville \n" +
+                "5. Filtrer par tranche d'âge \n" +
+                "6. Trier les contacts \n" +
+                "7. Supprimer un contact \n" +
+                "8. Statistiques \n" +
+                "0. Quitter \n\n" +
+                "Votre choix ?",
+        );
+        switch (choix) {
+            case "1":
+                ajouterContact();
+                break;
+            case "2":
+                afficherContacts();
+                break;
+            case "3":
+                rechercherContact();
+                break;
+            case "4":
+                filtrerParVille();
+                break;
+            case "5":
+                filtrerParAge();
+                break;
+            case "6":
+                trierContacts();
+                break;
+            case "7":
+                supprimerContact();
+                break;
+            case "8":
+                afficherStatistiques();
+                break;
+            case "0":
+                break;
+            case null:
+                break;
+            default:
+                console.log("Veuillez entrer un numéro compris entre 0 et 8");
+                break;
+        }
+    } while (choix !== "0" && choix !== null);
+    console.log("Au revoir !");
 }
 
 // LANCEMENT DU MENU
