@@ -94,6 +94,7 @@ function lancerMenu() {
                 afficherContacts();
                 break;
             case "3":
+                rechercherContact();
                 break;
             case "4":
                 break;
@@ -120,11 +121,44 @@ function lancerMenu() {
 function afficherContacts() {
     console.log(`Liste des contacts (${contacts.length} contacts) : \n\n`);
 
+    // Boucle pour chaque contact
     contacts.forEach((contact) => {
         console.log(
             `${contact.prenom} ${contact.nom} - ${contact.age} ans - ${contact.ville} - Email: ${contact.email} - Tel: ${contact.telephone}`,
         );
     });
+}
+
+function rechercherContact() {
+    // Saisie de l'utilisateur
+    const saisie = prompt(
+        "Veuillez entrer le prénom et/ou le nom du contact à rechercher",
+    );
+    if (!saisie) {
+        console.log("Recherche annulée");
+        return;
+    }
+    // On enleve les espaces inutiles + tout en minuscule
+    const recherche = saisie.trim().toLowerCase();
+    // On cherche dans le tableau en minuscule si il y a le prénom ou le nom
+    const resultat = contacts.find(
+        (contact) =>
+            `${contact.prenom} ${contact.nom}`
+                .toLowerCase()
+                .includes(recherche) ||
+            `${contact.nom} ${contact.prenom}`
+                .toLowerCase()
+                .includes(recherche),
+    );
+    // On montre le resultat si un contact est trouvé
+    if (resultat) {
+        console.log("Contact trouvé");
+        console.log(
+            `${resultat.prenom} ${resultat.nom} - ${resultat.age} ans - ${resultat.ville} - Email: ${resultat.email} - Tel: ${resultat.telephone}`,
+        );
+    } else {
+        console.log("Aucun contact trouvé");
+    }
 }
 
 // LANCEMENT DU MENU
