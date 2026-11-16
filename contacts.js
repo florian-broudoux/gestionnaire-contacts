@@ -97,6 +97,7 @@ function lancerMenu() {
                 rechercherContact();
                 break;
             case "4":
+                filtrerParVille();
                 break;
             case "5":
                 break;
@@ -158,6 +159,30 @@ function rechercherContact() {
         );
     } else {
         console.log("Aucun contact trouvé");
+    }
+}
+
+function filtrerParVille() {
+    //Saisie de l'utilisateur
+    const saisie = prompt("Entrez une ville :");
+    if (!saisie) {
+        console.log("Filtrage annulé");
+        return;
+    }
+    // On nettoie la saisie + minuscule
+    const ville = saisie.trim().toLowerCase();
+    // On cherche la ville dans le tableau en minuscule
+    const resultat = contacts.filter(contact => contact.ville.toLowerCase() === ville);
+    //On montrer les contacts qui correspondent à la ville avec une boucle
+    if (resultat.length > 0) {
+        console.log(`Il y a ${resultat.length} contact(s) à ${saisie.trim()}`);
+        for (const contact of resultat) {
+            console.log(
+            `${contact.prenom} ${contact.nom} - ${contact.age} ans - ${contact.ville} - Email: ${contact.email} - Tel: ${contact.telephone}`,
+        );
+        }
+    } else {
+        console.log(`Aucun contact à ${saisie.trim()}`);
     }
 }
 
