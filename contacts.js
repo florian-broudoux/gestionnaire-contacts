@@ -103,6 +103,7 @@ function lancerMenu() {
                 filtrerParAge();
                 break;
             case "6":
+                trierContacts();
                 break;
             case "7":
                 break;
@@ -200,7 +201,7 @@ function filtrerParAge() {
     // On convertit les saisies en nombres
     const ageMin = Number(saisieMin);
     const ageMax = Number(saisieMax);
-    
+    // On vérifie les nombres et si le minmimum est bien inférieur au maximum
     if (isNaN(ageMin) || isNaN(ageMax)) {
         console.log("Veuillez entrer des nombres valides");
         return;
@@ -226,6 +227,32 @@ function filtrerParAge() {
         console.log(`Aucun contact entre ${ageMin} et ${ageMax}`);
     }
 }
+
+function trierContacts() {
+    // Saisie de l'utilisateur
+    const saisie = prompt("Vous voulez trier les contacts par :\n1. Nom\n2. Age\n\nVotre choix ?");
+    let tri;
+
+    switch(saisie) {
+        case "1":
+            console.log("Voici la liste des contacts triés par nom :");
+            tri = [...contacts].sort((a, b) => a.nom.localeCompare(b.nom));
+            break;
+        case "2":
+            console.log("Voici la liste des contacts triés par âge");
+            tri = [...contacts].sort((a, b) => a.age - b.age);
+            break;
+        default:
+            console.log("Choix invalide");
+            return
+    }
+    for (const contact of tri) {
+        console.log(
+                `${contact.prenom} ${contact.nom} - ${contact.age} ans - ${contact.ville} - Email: ${contact.email} - Tel: ${contact.telephone}`,
+            );
+    }
+}
+
 
 // LANCEMENT DU MENU
 lancerMenu();
