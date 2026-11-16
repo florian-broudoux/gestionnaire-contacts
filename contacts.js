@@ -107,6 +107,7 @@ function lancerMenu() {
                 trierContacts();
                 break;
             case "7":
+                supprimerContact();
                 break;
             case "8":
                 break;
@@ -231,10 +232,12 @@ function filtrerParAge() {
 
 function trierContacts() {
     // Saisie de l'utilisateur
-    const saisie = prompt("Vous voulez trier les contacts par :\n1. Nom\n2. Age\n\nVotre choix ?");
+    const saisie = prompt(
+        "Vous voulez trier les contacts par :\n1. Nom\n2. Age\n\nVotre choix ?",
+    );
     let tri;
 
-    switch(saisie) {
+    switch (saisie) {
         case "1":
             console.log("Voici la liste des contacts triés par nom :");
             tri = [...contacts].sort((a, b) => a.nom.localeCompare(b.nom));
@@ -245,18 +248,18 @@ function trierContacts() {
             break;
         default:
             console.log("Choix invalide");
-            return
+            return;
     }
     for (const contact of tri) {
         console.log(
-                `${contact.prenom} ${contact.nom} - ${contact.age} ans - ${contact.ville} - Email: ${contact.email} - Tel: ${contact.telephone}`,
-            );
+            `${contact.prenom} ${contact.nom} - ${contact.age} ans - ${contact.ville} - Email: ${contact.email} - Tel: ${contact.telephone}`,
+        );
     }
 }
 
 function ajouterContact() {
     // Fonction pour répéter le prompt
-    const demander = propriete => {
+    const demander = (propriete) => {
         const saisie = prompt(propriete);
         return saisie === null ? "" : saisie.trim();
     };
@@ -284,13 +287,39 @@ function ajouterContact() {
         age: age,
         ville: ville,
         email: email,
-        telephone: telephone
+        telephone: telephone,
     };
     // On l'ajoute dans le tableau
     contacts.push(nouveauContact);
     console.log(`${prenom} ${nom} a été ajouté aux contacts`);
     console.log(`Il y a maintenant ${contacts.length} contacts`);
-} 
+}
+
+function supprimerContact() {
+    // Saisie de l'utilisateur
+    const saisie = prompt("Entrez le nom ou l'email du contact à supprimer");
+    if (!saisie) {
+        console.log("Suppression annulé");
+        return;
+    }
+    // On nettoie la saisie + minuscules
+    const recherche = saisie.trim().toLowerCase();
+    // On recherche l'index du contact par le nom ou l'email
+    const index = contacts.findIndex(
+        (contact) =>
+            contact.nom.toLowerCase() === recherche ||
+            contact.email.toLowerCase() === recherche,
+    );
+    // Si on obtient un index, 
+    if (index !== -1) {
+        const supprime = contacts[index];
+        contacts.splice(index, 1);
+        console.log(`${supprime.prenom} ${supprime.nom} a été supprimé`);
+        console.log(`Il reste ${contacts.length} contacts`);
+    } else {
+        console.log(`Aucun contact trouvé avec ${saisie.trim()}`);
+    }
+}
 
 // LANCEMENT DU MENU
 lancerMenu();
