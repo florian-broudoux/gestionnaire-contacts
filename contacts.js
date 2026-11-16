@@ -110,6 +110,7 @@ function lancerMenu() {
                 supprimerContact();
                 break;
             case "8":
+                afficherStatistiques();
                 break;
             case "0":
                 break;
@@ -310,7 +311,7 @@ function supprimerContact() {
             contact.nom.toLowerCase() === recherche ||
             contact.email.toLowerCase() === recherche,
     );
-    // Si on obtient un index, 
+    // Si on obtient un index, on le supprime avec .splice
     if (index !== -1) {
         const supprime = contacts[index];
         contacts.splice(index, 1);
@@ -319,6 +320,63 @@ function supprimerContact() {
     } else {
         console.log(`Aucun contact trouvé avec ${saisie.trim()}`);
     }
+}
+
+function afficherStatistiques() {
+    console.log("Statistiques des contacts :");
+    if (contacts.length === 0) {
+        console.log("Le carnet est vide");
+        return;
+    }
+    // Affichage du total
+    console.log(`Il y a un total de ${contacts.length} contacts`);
+
+    // On extrait les ages dans un nouveau tableau
+    const ages = contacts.map((contact) => contact.age);
+
+    // Calcul de l'age moyen :
+    //On additionne tous les ages avec une boucle
+    let sommeAges = 0;
+    for (const age of ages) {
+        sommeAges += age;
+    }
+    //On calcule la moyenne
+    const ageMoyen = Math.round(sommeAges / ages.length);
+    console.log(`Age moyen : ${ageMoyen} ans`);
+
+    // Trouver la valeur la plus basse et la plus haute
+    const ageMin = Math.min(...ages);
+    const ageMax = Math.max(...ages);
+    // Trouver à quel contact correspond la valeur
+    const plusJeune = contacts.find((c) => c.age === ageMin);
+    const plusAge = contacts.find((c) => c.age === ageMax);
+    // Affichage des résultats
+    console.log(
+        `Le contact le plus jeune est ${plusJeune.prenom} ${plusJeune.nom} avec ${plusJeune.age} ans`,
+    );
+    console.log(
+        `Le contact le plus agé est ${plusAge.prenom} ${plusAge.nom} avec ${plusAge.age} ans`,
+    );
+
+    // Trouver la ville la plus représentée :
+    // On extrait les villes dans un nouveau tableau en évitant les doublons
+    const villes = [...new Set(contacts.map((contact) => contact.ville))];
+    let villeMax = "";
+    let compteurMax = 0;
+    // Boucle pour calculer le compteur de chaque ville
+    for (const ville of villes) {
+        const compteur = contacts.filter(
+            (contact) => contact.ville === ville,
+        ).length;
+        // Si le compteur dépasse le compteurMax, il devient à son tour compteurMax et sa ville devient la villeMax
+        if (compteur > compteurMax) {
+            compteurMax = compteur;
+            villeMax = ville;
+        }
+    }
+    console.log(
+        `La ville la plus représentée est ${villeMax} avec ${compteurMax} contacts`,
+    );
 }
 
 // LANCEMENT DU MENU
