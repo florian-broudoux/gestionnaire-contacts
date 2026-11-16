@@ -100,6 +100,7 @@ function lancerMenu() {
                 filtrerParVille();
                 break;
             case "5":
+                filtrerParAge();
                 break;
             case "6":
                 break;
@@ -171,18 +172,58 @@ function filtrerParVille() {
     }
     // On nettoie la saisie + minuscule
     const ville = saisie.trim().toLowerCase();
-    // On cherche la ville dans le tableau en minuscule
-    const resultat = contacts.filter(contact => contact.ville.toLowerCase() === ville);
+    // On filtre la ville dans le tableau en minuscule
+    const resultat = contacts.filter(
+        (contact) => contact.ville.toLowerCase() === ville,
+    );
     //On montrer les contacts qui correspondent à la ville avec une boucle
     if (resultat.length > 0) {
         console.log(`Il y a ${resultat.length} contact(s) à ${saisie.trim()}`);
         for (const contact of resultat) {
             console.log(
-            `${contact.prenom} ${contact.nom} - ${contact.age} ans - ${contact.ville} - Email: ${contact.email} - Tel: ${contact.telephone}`,
-        );
+                `${contact.prenom} ${contact.nom} - ${contact.age} ans - ${contact.ville} - Email: ${contact.email} - Tel: ${contact.telephone}`,
+            );
         }
     } else {
         console.log(`Aucun contact à ${saisie.trim()}`);
+    }
+}
+
+function filtrerParAge() {
+    //Saisie de l'utilisateur (2 prompts, age min et age max)
+    const saisieMin = prompt("Age minimum :");
+    const saisieMax = prompt("Age maximum :");
+    if (!saisieMin || !saisieMax) {
+        console.log("Filtrage annulé");
+        return;
+    }
+    // On convertit les saisies en nombres
+    const ageMin = Number(saisieMin);
+    const ageMax = Number(saisieMax);
+    
+    if (isNaN(ageMin) || isNaN(ageMax)) {
+        console.log("Veuillez entrer des nombres valides");
+        return;
+    } else if (ageMin > ageMax) {
+        console.log("L'âge minimum doit être inférieur à l'âge maximum");
+        return;
+    }
+    // On filtre l'age des contacts dans le tableau
+    const resultat = contacts.filter(
+        (contact) => contact.age >= ageMin && contact.age <= ageMax,
+    );
+    // On montre les contacts dans la tranche d'age
+    if (resultat.length > 0) {
+        console.log(
+            `Il y a ${resultat.length} contact(s) entre ${ageMin} et ${ageMax} ans`,
+        );
+        for (const contact of resultat) {
+            console.log(
+                `${contact.prenom} ${contact.nom} - ${contact.age} ans - ${contact.ville} - Email: ${contact.email} - Tel: ${contact.telephone}`,
+            );
+        }
+    } else {
+        console.log(`Aucun contact entre ${ageMin} et ${ageMax}`);
     }
 }
 
