@@ -91,6 +91,7 @@ function lancerMenu() {
             case "1":
                 break;
             case "2":
+                afficherContacts();
                 break;
             case "3":
                 break;
@@ -114,6 +115,16 @@ function lancerMenu() {
         }
     } while (choix !== "0" && choix !== null);
     console.log("Au revoir !");
+}
+
+function afficherContacts() {
+    console.log(`Liste des contacts (${contacts.length} contacts) : \n\n`);
+
+    contacts.forEach((contact) => {
+        console.log(
+            `${contact.prenom} ${contact.nom} - ${contact.age} ans - ${contact.ville} - Email: ${contact.email} - Tel: ${contact.telephone}`,
+        );
+    });
 }
 
 // LANCEMENT DU MENU
